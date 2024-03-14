@@ -1,9 +1,9 @@
-<form action="" method="post" enctype="multipart/form-data" >
+<!-- <form action="" method="post" enctype="multipart/form-data" >
     <input type="file" name="files" id=""/>
     <br/>
     <br/>
     <button type="button">All Files</button>
-</form>
+</form> -->
 <?php 
 // $fileName="./allfilecreated/bikram.txt";
 // $file=fopen($fileName,"r");
