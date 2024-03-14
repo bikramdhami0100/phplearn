@@ -1,5 +1,5 @@
 <form action="" method="post">
-   <input type="text" name="name"  id="" placeholder="enter cookie"  />
+   <input type="text" name="name"  id="" placeholder="enter session data "  />
    <br/>
    <br/>
    <button type="submit" name="button" value="set">set session</button>
