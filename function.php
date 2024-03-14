@@ -1,4 +1,4 @@
-<?php 
+x<?php 
  //basic function in php 
 //  function Myfun(){
 //     echo"this is bikram dhami";
