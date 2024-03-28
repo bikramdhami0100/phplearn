@@ -1,14 +1,16 @@
 <?php
 //study final methods
 // class Honda{
-// final function displayName() {
-//     echo "this is honda Section";
+//  protected $nam="Bikram Dhami";
+//  function displayName() {
+//     echo $this->nam;
 // }
 // }
 // class Cars extends Honda{
-// //   function displayName()  {
-// //     echo "this is cars section";
-// //   }
+
+//   function displayName()  {
+//     echo $this->nam;
+//   }
 // }
 // $obj=new Cars();
 // $obj->displayName();
