@@ -5,6 +5,7 @@ abstract class Afirst{
     function Aone() {
         echo "this is aone funtion";
     }
+    
 }
 class Asecond extends Afirst{
     function productDetail(){
