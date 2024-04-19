@@ -1,7 +1,7 @@
 <?php 
 
 if ($_FILES["image"]) {
-
+    print_r($_FILES);
     $file = $_FILES["image"]["name"];
     $uplaod="./fileupload/".$file;
     $filename=$_FILES["image"]["tmp_name"];
