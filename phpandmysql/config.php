@@ -1,7 +1,7 @@
 
 <?php  
 $dbHost="localhost";  
-$dbName="college";  
+$dbName="students";  
 $dbUser="root";      //by default root is user name.  
 $dbPassword="";     //password is blank by default  
 print_r(getenv("API_KEY"));
