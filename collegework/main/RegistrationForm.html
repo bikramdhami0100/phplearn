@@ -18,7 +18,7 @@
         }
         .form{
             padding: 4px;
-            height: 350px;
+            height: 400px;
             width: 400px;
            
         }
@@ -37,7 +37,7 @@
     </style>
 </head>
 <div class="registrationform">
-    <form class="form" action="./RegestrationForm.php" method="post">
+    <form class="form" enctype="multipart/form-data" action="./RegestrationForm.php" method="post" >
     Name:
     <input type="text" name="fname" id=""/>
     <br>
@@ -75,9 +75,13 @@
          <option value="php">Php</option>
          <option value="Cryptography">Cryptography</option>
       </select>
+      <br>
+      <br>
+      Photo:
+      <input type="file" name="photo" placeholder="choose photo">
       <br/>
       <br/>
-      <button type="submit" class="btn">Submit</button>
+      <button type="submit" name="btn" value="btn">Submit</button>
     </form>
 
 </div>

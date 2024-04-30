@@ -3,14 +3,33 @@ include_once("./registrationdbcon.php");
 $firstName = $_POST["fname"];
 $lastName = $_POST["lname"];
 $email = $_POST["email"];
-$password = $_POST["password"];
+$password = md5($_POST["password"]);
 $address = $_POST["address"];
 $mobile = $_POST["mobile"];
 $gender = $_POST["gender"];
 $program = $_POST["program"];
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
+// if ($_FILES["photo"]) {
+//    print_r($_FILES["photo"]);
+// }
+// $info = getimagesize($_FILES["photo"]["tmp_name"]);
+// if ($info["mime"]=="image/jpeg") {
+//   echo "this is me";
+//   $createimg = imagecreatefromjpeg($_FILES["photo"]["tmp_name"]);
+
+//   imagejpeg($createimg,$_FILES["photo"]["name"],60);
+// // echo "<pre>";
+// // printf($createimg);
+// // echo "</pre>";
+// }
+
+// print_r($info);
+// echo "<pre>";
+// print_r($_POST);
+// echo "<br>";
+// print_r($_FILES["photo"]);
+// echo "<br>";
+
+// echo "</pre>";
         // $sqlfortable="create table if not exists student(id int(10) unsigned auto_increment primary key,firstname varchar(20) not null, lastname varchar(20), email varchar(20) not null, password varchar(30) not null, address varchar(20) not null, mobilenumber varchar(15) not null, gender varchar(10) not null, program varchar not null ) ";
         $sqlfortable = "CREATE TABLE IF NOT EXISTS student (
             id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
