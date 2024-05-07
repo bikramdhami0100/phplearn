@@ -1,63 +1,48 @@
+
 <?php 
-include_once("./registrationdbcon.php");
-$firstName = $_POST["fname"];
-$lastName = $_POST["lname"];
-$email = $_POST["email"];
-$password = md5($_POST["password"]);
-$address = $_POST["address"];
-$mobile = $_POST["mobile"];
-$gender = $_POST["gender"];
-$program = $_POST["program"];
-// if ($_FILES["photo"]) {
-//    print_r($_FILES["photo"]);
-// }
-// $info = getimagesize($_FILES["photo"]["tmp_name"]);
-// if ($info["mime"]=="image/jpeg") {
-//   echo "this is me";
-//   $createimg = imagecreatefromjpeg($_FILES["photo"]["tmp_name"]);
+include_once("../include/registrationdbcon.php");
 
-//   imagejpeg($createimg,$_FILES["photo"]["name"],60);
-// // echo "<pre>";
-// // printf($createimg);
-// // echo "</pre>";
-// }
+if (isset($_POST["btn"])) {
+    $firstName = $_POST["fname"];
+    $lastName = $_POST["lname"];
+    $email = $_POST["email"];
+    $password = md5($_POST["password"]);
+    $address = $_POST["address"];
+    $mobile = $_POST["mobile"];
+    $gender = $_POST["gender"];
+    $program = $_POST["program"];
 
-// print_r($info);
-// echo "<pre>";
-// print_r($_POST);
-// echo "<br>";
-// print_r($_FILES["photo"]);
-// echo "<br>";
+    $sqlfortable = "CREATE TABLE IF NOT EXISTS student (
+        id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        firstname VARCHAR(20) NOT NULL,
+        lastname VARCHAR(20),
+        email VARCHAR(50) NOT NULL,
+        password VARCHAR(32) NOT NULL,
+        address VARCHAR(100) NOT NULL,
+        mobilenumber VARCHAR(15) NOT NULL,
+        gender VARCHAR(10) NOT NULL,
+        program VARCHAR(50) NOT NULL
+    )";
+    
+    if ($connection->query($sqlfortable) === TRUE) {
+        echo "Table created successfully";
+    } else {
+        echo "Error creating table: " . $connection->error;
+    }
 
-// echo "</pre>";
-        // $sqlfortable="create table if not exists student(id int(10) unsigned auto_increment primary key,firstname varchar(20) not null, lastname varchar(20), email varchar(20) not null, password varchar(30) not null, address varchar(20) not null, mobilenumber varchar(15) not null, gender varchar(10) not null, program varchar not null ) ";
-        $sqlfortable = "CREATE TABLE IF NOT EXISTS student (
-            id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            firstname VARCHAR(20) NOT NULL,
-            lastname VARCHAR(20),
-            email VARCHAR(50) NOT NULL,
-            password VARCHAR(30) NOT NULL,
-            address VARCHAR(100) NOT NULL,
-            mobilenumber VARCHAR(15) NOT NULL,
-            gender VARCHAR(10) NOT NULL,
-            program VARCHAR(50) NOT NULL
-        )";
-        $connection->query($sqlfortable);
-        if ($connection->query($sqlfortable)==true) {
-            # code...
-            echo "<br/>";
-            echo ("create table successfully");
-        }
-       
-   $sqlforinsertvalues="insert into student values('null','$firstName', '$lastName', '$email', '$password', '$address', '$mobile', '$gender', '$program')";
-   echo "<br/>";
-  if (   $connection->query($sqlforinsertvalues)==true) {
-    # code...
-    echo "value insert successfully ";
-  }else {
-    echo "value inset failed".$connection->error;
-  }
-  $connection->close();
+    $sqlforinsertvalues = "INSERT INTO student (firstname, lastname, email, password, address, mobilenumber, gender, program) 
+                           VALUES ('$firstName', '$lastName', '$email', '$password', '$address', '$mobile', '$gender', '$program')";
+   
+   if ($connection->query($sqlforinsertvalues) ===TRUE) {
+    echo "New record created successfully";
+    header("location:getValue.php?value=insert");
+    exit; // Terminate script execution after redirection
+} else {
+    echo "Error: " . $sqlforinsertvalues . "<br>" . $connection->error;
+}
 
-
+    
+    $connection->close();
+}
 ?>
+
