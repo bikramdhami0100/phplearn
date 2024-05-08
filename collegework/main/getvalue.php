@@ -39,7 +39,9 @@ if ($result === false) {
             foreach ($row as $key => $value) { 
 
               if ($key=="photo") {
-                echo "<div style='display: flex ; flex-direction: row; flex-wrap: wrap; width: 100%; height: auto;' ><img src='../assests/images/$value' width='100px' height='100px'/><br/> <p> $value</p></div>";
+                echo "<div style='display: flex ; flex-direction: row; flex-wrap: wrap; width: 100%; height: auto;' ><img src='../assests/images/$value' width='100px' height='100px'/><br/> <p>photo: $value</p>
+                
+                </div>";
               } 
               echo "<td style='padding: 8px;'>$value</td>";
             }
