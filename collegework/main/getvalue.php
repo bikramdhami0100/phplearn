@@ -36,8 +36,12 @@ if ($result === false) {
         // Display data rows
         while ($row = $result->fetch_assoc()) {
             echo "<tr style='border: 1px solid ;'>";
-            foreach ($row as $key => $value) {      
-                echo "<td style='padding: 8px;'>$value</td>";
+            foreach ($row as $key => $value) { 
+
+              if ($key=="photo") {
+                echo "<div style='display: flex ; flex-direction: row; flex-wrap: wrap; width: 100%; height: auto;' ><img src='../assests/images/$value' width='100px' height='100px'/><br/> <p> $value</p></div>";
+              } 
+              echo "<td style='padding: 8px;'>$value</td>";
             }
             // Edit and Delete buttons for each row
             echo "<td> <a href='editUserData.php?id={$row['id']}' onclick='return confirm(\"Do you sure Edit user?\")'>Edit</a> </td>";

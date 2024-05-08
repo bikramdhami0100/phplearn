@@ -10,7 +10,8 @@ if (isset($id)) {
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
-
+        $photo=$row["photo"];
+        $destination="../assests/images/$photo";
         $firstname = $row["firstname"];
         $lastname = $row["lastname"];
         $email = $row["email"];
@@ -21,7 +22,9 @@ if (isset($id)) {
         $program = $row["program"];
 
      
-        echo '<form id="studentForm" action="" method="post" style="width: 400px; margin: 50px auto; padding: 20px; background-color: rgba(173, 216, 230, 0.8); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        echo '<form id="studentForm" action="" method="post"  enctype="multipart/form-data" style="width: 400px; margin: 50px auto; padding: 20px; background-color: rgba(173, 216, 230, 0.8); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <img src="'.$destination.'" width="100px" height="100px"/>
+        <input type="file" name="photo" id="photo" >
         <input type="hidden" name="id" value="'.$id.'">
         First Name: <input type="text" name="updatefirstname" value="'. $firstname.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
         Last Name: <input type="text" name="updatelastname" value="'. $lastname.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
@@ -47,7 +50,28 @@ if (isset($id)) {
     echo "ID is not passed from the table.";
 }
 
+
 if (isset($_POST["Update"])) {
+    
+    // print_r($_POST["photo"]);
+    print_r($_FILES["photo"]);
+    if (isset($_FILES["photo"])) {
+        $filename = $_FILES["photo"]["name"];
+        $tmpname = $_FILES["photo"]["tmp_name"];
+        $destination = "../assests/images/" . basename($filename); // Sanitize filename
+        if (move_uploaded_file($tmpname, $destination)) {
+
+            echo "File uploaded successfully";
+        } else {
+             $filename=$row["photo"];
+            echo "Error uploading file";
+            // Handle error appropriately, e.g., exit or continue execution
+        }
+    } else {
+        $filename=$row["photo"];
+        echo "No file uploaded";
+        // Handle error appropriately, e.g., exit or continue execution
+    }
     $updateid = $_POST["id"];
     $updatefirstname = $_POST["updatefirstname"];
     $updatelastname = $_POST["updatelastname"];
@@ -57,7 +81,7 @@ if (isset($_POST["Update"])) {
     $updatemobilenumber = $_POST["updatemobilenumber"];
     $updategender = $_POST["updategender"];
     $updateprogram = $_POST["updateprogram"];
-
+   
     $updatesql = "UPDATE student SET 
         firstname='$updatefirstname',
         lastname='$updatelastname',
@@ -66,7 +90,8 @@ if (isset($_POST["Update"])) {
         address='$updateaddress',
         mobilenumber='$updatemobilenumber',
         gender='$updategender',
-        program='$updateprogram'
+        program='$updateprogram',
+        photo='$filename'
         WHERE id = $updateid";
 
     if ($connection->query($updatesql)==TRUE) {
@@ -74,7 +99,7 @@ if (isset($_POST["Update"])) {
        
         echo "Data updated successfully!";
         header("location:getvalue.php?value=update");
-        // exit();
+        exit();
     } else {
         echo "Error updating data: " . $connection->error;
     }
