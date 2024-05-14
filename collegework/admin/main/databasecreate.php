@@ -1,9 +1,9 @@
 <?php 
-include_once("../component/connection.php");
+require_once("../component/connection.php");
 
 echo "<br/>";
 $dbname="create database if not exists company";
-if ($connection->query($dbname)==true) {
+if ($connection->query($dbname)==TRUE) {
     $connection->select_db("Company");
     echo "select database successfull";
       

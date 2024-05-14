@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form {
+            border: 2px solid rgb(44, 42, 42);
+            display: flex;
+            flex-direction: column;
+            /* font-size: medium; */
+            font-weight: 800;
+            font-size: x-large;
+            width: 550px;
+            z-index: 4;
+            margin: 4px;
+            padding: 14px;
+            gap: 10px;
+            /* position: absolute; */
+
+        }
+
+        .form input {
+            height: 30px;
+            border-radius: 3px;
+        }
+
+        .imgcon {
+            z-index: 0;
+            position: absolute;
+        }
+
+        .imgcon img {
+            object-fit: contain;
+            opacity: 0.6;
+        }
+
+        .btn {
+            height: 40px;
+            width: 60px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 style="text-align: center; z-index: 4;"><a href="saru.php">Student List</a></h1>
+        <div class="imgcon">
+            <img src="assets/images/bg2.jpg" alt="" srcset="">
+        </div>
+        <form name="rform" class="form" action="insert.php" method="POST" enctype="multipart/form-data">
+            <h1>Form</h1>
+            <div>
+                First Name: <input type="text" name="firstname">
+            </div>
+            <div>
+                Last Name: <input type="text" name="lastname">
+            </div>
+            <div>
+                Enter your Email: <input type="text" name="email">
+            </div>
+            <div>
+                Enter your Password: <input type="text" name="password">
+            </div>
+            <div style="">
+                Enter your Address: <input type="text" name="address">
+            </div>
+            <div>
+                Enter your Mobile Number: <input type="text" name="number">
+            </div>
+            <div style="display: flex; gap: 2px;">
+                Select your Gender:
+                <div style="display: flex; justify-content: center; align-items: center; gap: 2px;">
+                    <input type="radio" name="gender" value="male"> Male
+                    <input type="radio" name="gender" value="female">Female
+                </div>
+            </div>
+            <div>
+                Select Program:
+                <select name="program">
+                    <option value="Cryptography" name="cryptography">Cryptography</option>
+                    <option value="Java" name="java">Java</option>
+
+                    <option value="PHP" name="php">Php</option>
+                    <option value="Research Methodology" name="research">Research Methodology</option>
+
+                </select>
+            </div>
+            <div>
+                Select Batch:
+                <select name="batch">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+            <div>
+                Select Semester:
+                <select name="semester">
+                    <option value="Third">Third</option>
+                    <option value="Second">Second</option>
+                    <option value="Fifth">Fifth</option>
+                    <option value="Sixth">Sixth</option>
+                </select>
+            </div>
+            <div>
+                Select Profile <input type="file" name="photo">
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <button style="height: 40px;width: 100px;" type="submit" name="submit" value="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

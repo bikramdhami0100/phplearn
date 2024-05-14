@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+        }
+        .one{
+            cursor: pointer;
+            display: flex; gap: 20px; list-style-type: none; 
+
+        }
+        .one li:hover{
+          color: blue;
+          text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .sidebar {
+            background-color: #f4f4f4;
+            width: 20%;
+            height: 100vh;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .main-content {
+            background-color: #eaeaea;
+            width: 75%;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .btn button{
+            background-color: blue;
+            border-radius: 6px;
+            padding: 4px;
+            border-color: black;
+            height: 30px;
+            width: 80px;
+        }
+        .two{
+            cursor: pointer;
+            flex-direction: column;
+            display: flex; gap: 20px; list-style-type: none; 
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div style="">
+            <ul class="one" >
+                <li>Home</li>
+                <li>About</li>
+                <li>Contact</li>
+            </ul>
+        </div>
+        <div class="btn">
+            <button type="button" onclick="LoginPage()" >Log in</button>
+            <button type="button" onclick="LoginPage()">Sign up</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div>
+                <ul class="two one" style="list-style-type: none;" >
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Contact</li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-content">
+         
+        </div>
+    </div>
+</body>
+<script>
+    function LoginPage() {
+        window.location.href="insert.html"
+    }
+</script>
+</html>
