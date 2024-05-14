@@ -1,6 +1,8 @@
 
 <?php
-$id = $_REQUEST["id"];
+if (isset($_GET["login"])) {
+   if ($_GET["login"]=="true") {
+    $id = $_REQUEST["id"];
 
 include_once("../include/registrationdbcon.php");
 
@@ -98,7 +100,7 @@ if (isset($_POST["Update"])) {
         //  print_r($connection);
        
         echo "Data updated successfully!";
-        header("location:getvalue.php?value=update");
+        header("location:../dashboard.php?login=true&id=8&goto=studentlist");
         exit();
     } else {
         echo "Error updating data: " . $connection->error;
@@ -106,6 +108,12 @@ if (isset($_POST["Update"])) {
 }else{
     echo "<p style='color:red;'> Please Update Your Data</p>";
 }
-
 $connection->close();
+   }else{
+    echo "please login first";
+   }
+}else{
+    echo "please login first";
+}
+
 ?>

@@ -54,17 +54,33 @@ if (isset($_POST["btn"])) {
     // Insert data into the table
     $sqlforinsertvalues = "INSERT INTO student (firstname, lastname, email, password, address, mobilenumber, gender, program, photo) 
                            VALUES ('$firstName', '$lastName', '$email', '$password', '$address', '$mobile', '$gender', '$program', '$filename')";
-   
-    if ($connection->query($sqlforinsertvalues) === TRUE) {
-        header("location:getValue.php?value=insert");
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sqlforinsertvalues . "<br>" . $connection->error;
-    }
+         $result=$connection->query($sqlforinsertvalues);
+    if ( $result===TRUE) {
+        $recently_inserted_id = $connection->insert_id;
+        $sqlforselectdata = "SELECT * FROM student WHERE id = $recently_inserted_id";
+        $result_select = $connection->query($sqlforselectdata);
+        if ($result_select->num_rows > 0) {
+            $row = $result_select->fetch_assoc();
+           session_start();
+           $_SESSION["id"]=$row['id'];
+           $_SESSION['email']=$row["email"];
+           header("location:../dashboard.php?login=true&id=8&goto=studentlist");
+           echo "New record created successfully";
+            // Do something with the retrieved data, such as displaying it or storing it in variables
+            print_r($row);
+        } else {
+            echo "No data found for the recently inserted record";
+        }
+       
+       }
+        
+
+
+} 
 
     // Close database connection
-    $connection->close();
-}
+    // $connection->close();
+
 ?>
 
 

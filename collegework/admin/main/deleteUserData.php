@@ -25,7 +25,7 @@ if (isset($_REQUEST['id']))
             echo "Image not found in destination folder.";
         }
         echo "User is deleted successfully";
-        header("location:getValue.php?value=delete");
+        header("location:../dashboard.php?login=true&id=8&goto=studentlist");
     }
    }
     

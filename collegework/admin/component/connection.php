@@ -5,7 +5,7 @@ $password="";
 $connection=new mysqli($host,$user,$password);
 if ($connection) {
     $connection->select_db("college");
-    echo"connection successfully";
+    // echo"connection successfully";
 }else{
     echo"connection fail";
 }
