@@ -34,7 +34,7 @@
     <div class="container">
         <div class="sidebar">
          <a href="http://localhost/phplearn/collegework/admin/component/mainbody.php?id=<?php echo $id;?>">Dashboard</a>
-         <a href="http://localhost/phplearn/collegework/admin/handler.php?value=studentlist">Student List</a>
+         <a href="http://localhost/phplearn/collegework/admin/component/mainbody.php?value=flogin&click=studentlist">Student List</a>
          <a href="">setting</a>
         </div>
         <div class="mainbody">
@@ -50,7 +50,7 @@ if ($data) {
     $res=$connection->query($sql);
     if ($res->num_rows>0) {
         $result=$res->fetch_assoc();
-        // print_r($result);
+        
     }
     if (isset($result["id"])) {
         // echo $result["id"];
@@ -63,12 +63,13 @@ if ($data) {
         $gender=$result["gender"];
         $photoname=$result["photo"];
         $program=$result["program"];
-    
-        # code...
     }
 }
+ if (isset($_GET["click"])) {
+     include_once("../main/getvalue.php");
+ }
               ?>
-          
+             <p> <?php echo "Name : $name $lname" ?></p>
         </div>
     </div>
    
