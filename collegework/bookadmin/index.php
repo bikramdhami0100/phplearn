@@ -1,37 +1,3 @@
-
-<?php
-require_once("component/connection.php");
-session_start();
-if (isset($_POST["login"])) {
-       $username = $_POST["username"];
-    $password = $_POST["password"];
-    $error=array();
-    
-    if ( empty($username) ) {
-        $error["erroremail"]="Email is required";
-        }else{
-        $error["erroremail"]="";
-        }
-    if (empty($password) ) {
-            $error["errorpassword"]="Password is required";
-        }else{
-            $error["errorpassword"]="";
-        }
-        $pass = md5($password);
-        $sql = "select * from student where email='$username' and password='$pass'";
-        $data = $connection->query($sql);
-        if ($data->num_rows > 0) {
-            $result = $data->fetch_assoc();
-            $id = $result["id"];
-            $_SESSION["id"] = $id;
-            $_SESSION["email"] = $result["email"];
-            header("location:dashboard.php?login=true&id=$id&goto=dashboard");
-        } else {
-            echo "Invalid user/email or password";
-        }
-    
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,16 +72,35 @@ if (isset($_POST["login"])) {
     <form action="" method="post">
         <h1>Login Page</h1>
         <label for="username">UserName/Email</label>
-        <div><?php echo isset($_POST["login"]) ? $error["erroremail"] : ""; ?></div>
         <input type="text" name="username" id="username">
         <br><br>
         <label for="password">Password</label>
-
         <input type="password" name="password" id="password">
-        <div><?php echo isset($_POST["login"]) ? $error["errorpassword"] : ""; ?></div>
         <br>
         <input type="submit" value="Login" name="login">
     </form>
     <p>If you do not have an account, <a href='http://localhost/phplearn/collegework/admin/main/RegistrationForm.html'>sign up</a>.</p>
 </body>
 </html>
+
+<?php
+require_once("component/connection.php");
+session_start();
+if (isset($_POST["login"])) {
+  
+   $username = $_POST["username"];
+   $password = $_POST["password"];
+   $pass = md5($password);
+   $sql = "select * from student where email='$username' and password='$pass'";
+   $data = $connection->query($sql);
+   if ($data->num_rows > 0) {
+       $result = $data->fetch_assoc();
+       $id = $result["id"];
+       $_SESSION["id"] = $id;
+       $_SESSION["email"] = $result["email"];
+       header("location:dashboard.php?login=true&id=$id&goto=dashboard");
+   } else {
+       echo "Invalid user/email or password";
+   }
+}
+?>
