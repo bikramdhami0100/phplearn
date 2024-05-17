@@ -1,6 +1,7 @@
 <?php
 // session_start(); 
-include_once("include/connection.php");
+// include_once("include/connection.php");
+include_once("include/admincon.php");
 session_start();
 if (isset($_POST['submit'])) {
    print_r($_POST);

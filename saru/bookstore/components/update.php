@@ -52,68 +52,7 @@ print_r($file_name);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>form</title>
-  <style>
-    ::after * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: aliceblue;
-
-    }
-
-    .container {
-      margin: 30px auto;
-      text-align: center;
-      max-width: 400px;
-      width: 50%;
-      border: 5px solid #ccc;
-      margin: 20px auto;
-      padding: 30px;
-      background-color: chartreuse;
-
-    }
-
-    h1 {
-      font-family: sans-serif;
-      display: block;
-      font-size: 2rem;
-      font-weight: bold;
-      text-align: center;
-      color: hotpink;
-      text-transform: uppercase;
-    }
-
-    .title {
-      font-size: 40px;
-
-      margin-bottom: 15px;
-
-      text-align: center;
-      text-transform: uppercase;
-      font-family: red;
-      font: bold;
-      color: red;
-    }
-
-    input[type=submit] {
-      border: 3px solid;
-      border-radius: 2px;
-      display: block;
-      font-size: 1em;
-      font-weight: bold;
-      margin: 1em auto;
-      padding: 1em 4em;
-      position: relative;
-      text-transform: uppercase;
-    }
-
-    input[type=submit]:hover {
-      color: red;
-    }
-  </style>
+  
 </head>
 
 <body>

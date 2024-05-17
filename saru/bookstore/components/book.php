@@ -44,8 +44,8 @@ $joinsql="SELECT *FROM book
 FULL OUTER JOIN admintable ON book. = Categories.CategoryID";
 if ($result->num_rows > 0) {
 ?>
-    <table>
-        <tr>
+    <table border="2px" style="border:2px;">
+        <tr style="height:6px;" >
             <th>S.N</th>
             <th>Category</th>
             <th>Book_Title</th>
@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
         $i = 1;
         while ($row = $result->fetch_assoc()) {
         ?>
-            <tr>
+            <tr style="height:6px;">
                 <td><?php echo $i; ?></td>
                 <td><?php echo $row["category"]; ?></td>
                 <td><?php echo $row["book_title"]; ?></td>

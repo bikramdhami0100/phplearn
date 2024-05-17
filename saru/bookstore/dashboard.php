@@ -59,15 +59,26 @@ if (empty($id)) {
     }
     .navbar{
       display:flex;
-      background:black;
+      justify-content:space-between;
+      align-items:center;
+      background:gray;
       color:white;
+      width: 130vw;
+    }
+    .one{
+      display: flex;
+      align-items:center;
+      gap:20px;
+      height:40px;
     }
 </style>
 <body>
 <div class="navbar">
-<div class="setdiv"><a href="dashboard.php?login=true&select=dashboard">Dashboard</a></div>
+           <div class="one">
+          <div class="setdiv"><a href="dashboard.php?login=true&select=dashboard">Dashboard</a></div>
           <div class="setdiv"><a href="dashboard.php?login=true&select=addbooks">All books</a></div>
           <div class="setdiv"><a href="dashboard.php?login=true&select=insertbook">Add book</a></div>
+           </div>
           <div class="setdiv"><a href="logout.php?login=true&select=logout">Log Out</a></div>
 </div>
   <div class="container">
@@ -76,6 +87,7 @@ if (empty($id)) {
           <div class="setdiv"><a href="dashboard.php?login=true&select=dashboard">Dashboard</a></div>
           <div class="setdiv"><a href="dashboard.php?login=true&select=addbooks">All books</a></div>
           <div class="setdiv"><a href="dashboard.php?login=true&select=insertbook">Add book</a></div>
+          <div class="setdiv"><a href="logout.php?login=true&select=logout">Log Out</a></div>
           <!-- <div  class="setdiv">update book</div> -->
 
           <!-- <div  class="setdiv">delete book</div> -->
