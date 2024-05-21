@@ -1,36 +1,13 @@
-<?php
-
- include_once("../include/registrationdbcon.php");
- 
-if (isset($_REQUEST['id']))
-
- {
-    
-    $id=$_REQUEST["id"];
-    $sqldelete= "SELECT * FROM student WHERE id=$id";
-    $result=$connection->query($sqldelete);
-   if ($result->num_rows>0) {
-       
-    $res=$result->fetch_assoc();
-    //   print_r($res);
-      $photoname=$res["photo"];
-    $destination="../assests/images/$photoname";
-
-    $deletesql="delete from student where id=$id";
-    if ($connection->query($deletesql)==TRUE) {
-        if (file_exists($destination)) {
-            unlink($destination);
-            echo "Image deleted successfully.";
-        } else {
-            echo "Image not found in destination folder.";
-        }
-        echo "User is deleted successfully";
-        header("location:../dashboard.php?login=true&id=8&goto=studentlist");
-    }
-   }
-    
-  
+<?php 
+require_once "../include/connection.php";
+$id=$_GET['id'];
+$sql="DELETE FROM book where id=$id";
+if($conn->query($sql)==true){
+    echo "record deleted";
+    header("location:../dashboard.php?login=true&select=addbooks");
+    exit();
 }else{
-    echo " User is not selected ";
+    echo "failed to delete record ";
 }
+
 ?>

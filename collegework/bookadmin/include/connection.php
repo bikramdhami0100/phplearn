@@ -1,14 +1,17 @@
 <?php
 $host="localhost";
-$user="root";
+$username="root";
 $password="";
-$connection=new mysqli($host,$user,$password);
-
-$dbname="create database if not exists bookstore";
-$connection->query($dbname);
-// for selection of database code 
-$connection->select_db("bookstore");
-echo "<br/>";
-echo "Database connection successfull";
+$database="bookstoreadmin";
+//create object
+$conn=new mysqli($host,$username,$password,$database);
+if($conn->connect_error){
+die("connecion failed".$conn->connect_error);
+}
+else
+{
+    // echo("connection succesful");
+  
+}
 
 ?>

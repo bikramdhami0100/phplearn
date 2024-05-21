@@ -9,6 +9,6 @@ $connection->query($dbname);
 // for selection of database code 
 $connection->select_db("college");
 echo "<br/>";
-// echo "Database connection successfull";
+echo "Database connection successfull";
 
 ?>

@@ -1,64 +1,60 @@
-<?php 
+<?php
+// session_start();
+include_once("include/connection.php");
 
-include_once("../include/connection.php");
+if (isset($_POST['submit'])) {
+    $adminid = $_SESSION["adminid"]; // Make sure $_SESSION["adminid"] is set properly
+    // print_r($adminid);
 
-if (isset($_POST["btn"])) {
-    // Check if photo is uploaded
-    if (isset($_FILES["photo"])) {
-        $filename = $_FILES["photo"]["name"];
-        $tmpname = $_FILES["photo"]["tmp_name"];
-        $destination = "../assets/images/" . basename($filename); // Sanitize filename
-        if (move_uploaded_file($tmpname, $destination)) {
-            echo "File uploaded successfully";
-        } else {
-            echo "Error uploading file";
-            // Handle error appropriately, e.g., exit or continue execution
-        }
-    } else {
-        echo "No file uploaded";
-        // Handle error appropriately, e.g., exit or continue execution
-    }
-   
-    // Retrieve other form data
-    $title = $_POST["title"];
-    $author = $_POST["author"];
-    $genre = $_POST["genre"];
-    $publication_date = $_POST["publication_date"];
-    $price = $_POST["price"];
-    $ISBN = $_POST["ISBN"];
-    $stock_quantity = $_POST["stock_quantity"];
-
-    // Create table if not exists
-    $sqlfortable = "CREATE TABLE IF NOT EXISTS books (
-        id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(100) NOT NULL,
+    $createtable = "CREATE TABLE IF NOT EXISTS book (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        category VARCHAR(50),
+        adminid INT(10) UNSIGNED,
+        book_title VARCHAR(100),
+        isbm VARCHAR(20),
         author VARCHAR(100),
-        genre VARCHAR(100) NOT NULL,
-        publication_date DATE,
-        price DECIMAL(10,2) NOT NULL,
-        ISBN VARCHAR(20) NOT NULL,
-        stock_quantity INT NOT NULL
-    )";
-    
-    if ($connection->query($sqlfortable) === TRUE) {
-        echo "Table created successfully";
-    } else {
-        echo "Error creating table: " . $connection->error;
-        exit; // Terminate script execution after error
-    }
+        pages INT,
+        copies INT,
+        price DECIMAL(10, 2),
+        photo VARCHAR(255),
+        FOREIGN KEY (adminid) REFERENCES admintable(adminid))";
 
-    // Insert data into the table
-    $sqlforinsertvalues = "INSERT INTO books (title, author, genre, publication_date, price, ISBN, stock_quantity) 
-    VALUES ('$title', '$author', '$genre', '$publication_date', $price, '$ISBN', $stock_quantity)";
+     if ($conn->query($createtable) == TRUE) {
+        echo "Table created successfully";
+     } else {
+        echo "Error creating table: " . $conn->error;
+     }
+
+    $category = $_POST['catagory']; // Corrected variable name
+    $book_title = $_POST['book_title'];
+    $isbm = $_POST['isbm'];
+    $author = $_POST['author'];
+    $pages = $_POST['pages'];
+    $copies = $_POST['copies'];
+    $price = $_POST['price'];
     
-    if ($connection->query($sqlforinsertvalues) === TRUE) {
-        header("location:../dashboard.php?login=true&id=8&goto=studentlist");
-        echo "New record created successfully";
+    // Check if photo is uploaded
+    if (isset($_FILES['photo']['name'])) {
+        $target = './assets/bookcover/';
+        $file_name = $_FILES['photo']['name'];
+        move_uploaded_file($_FILES['photo']['tmp_name'], $target . $file_name);
+    }
+    
+    $sql = "INSERT INTO book (category, adminid, book_title, isbm, author, pages, copies, price, photo) 
+            VALUES ('$category', '$adminid', '$book_title', '$isbm', '$author', '$pages', '$copies', '$price', '$file_name')";
+    
+    // Debugging line
+    // echo $sql;
+    
+    if ($conn->query($sql) === TRUE) {
+        $bookid = $conn->insert_id;
+        $_SESSION["bookid"] = $bookid;
+        header("location:dashboard.php?login=true&select=addbooks");
+        exit();
     } else {
-        echo "Error inserting record: " . $connection->error;
+        echo "Query error: " . $conn->error;
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -66,41 +62,42 @@ if (isset($_POST["btn"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Book</title>
+    <title>Form</title>
 </head>
 <body>
-   <div class="wrapper">
-    <div ></div>
-    <!-- <img src="../assests/background.avif" alt="image"  height="100%"  width="100%"> -->
-    <div  class="registrationform">
-        <form class="form" enctype="multipart/form-data" action="" method="post" >
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title" required>
+    <div class="container">
+        <form name="BOOK MODULE" action="" method="POST" enctype="multipart/form-data">
+            <label for="catagory"><b>CATEGORY:</b></label> <!-- Corrected spelling -->
+            <select name="catagory" id="catagory">
+                <option value="History">History</option>
+                <option value="Art">Art</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Technology">Technology</option>
+            </select>
             <br><br>
-            <label for="author">Author:</label>
-            <input type="text" name="author" id="author" required>
+            <label for="book_title"><b>BOOK TITLE:</b></label>
+            <input type="text" name="book_title" id="book_title">
             <br><br>
-            <label for="genre">Genre:</label>
-            <input type="text" name="genre" id="genre" required>
+            <label for="isbm"><b>ISBN:</b></label> <!-- Corrected spelling -->
+            <input type="text" name="isbm" id="isbm">
             <br><br>
-            <label for="publication_date">Publication Date:</label>
-            <input type="date" name="publication_date" id="publication_date" required>
+            <label for="author"><b>AUTHOR:</b></label> <!-- Corrected spelling -->
+            <input type="text" name="author" id="author">
             <br><br>
-            <label for="price">Price:</label>
-            <input type="number" name="price" id="price" step="0.01" required>
+            <label for="pages"><b>PAGES:</b></label>
+            <input type="text" name="pages" id="pages">
             <br><br>
-            <label for="ISBN">ISBN:</label>
-            <input type="text" name="ISBN" id="ISBN" required>
+            <label for="copies"><b>COPIES:</b></label>
+            <input type="text" name="copies" id="copies">
             <br><br>
-            <label for="stock_quantity">Stock Quantity:</label>
-            <input type="number" name="stock_quantity" id="stock_quantity" required>
+            <label for="price"><b>PRICE:</b></label>
+            <input type="text" name="price" id="price">
             <br><br>
-            <label for="photo">Book Cover:</label>
-            <input type="file" name="photo" id="photo" >
+            <label for="photo"><b>PHOTO:</b></label>
+            <input type="file" name="photo" id="photo">
             <br><br>
-            <button type="submit" name="btn" value="btn">Add Book</button>
+            <input type="submit" value="submit" name="submit">
         </form>
     </div>
-   </div>
 </body>
 </html>

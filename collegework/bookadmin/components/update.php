@@ -1,119 +1,125 @@
-
 <?php
-if (isset($_GET["login"])) {
-   if ($_GET["login"]=="true") {
-    $id = $_REQUEST["id"];
-
-include_once("../include/registrationdbcon.php");
-
-if (isset($id)) {
-    $sql = "SELECT * FROM student WHERE id=$id";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        $photo=$row["photo"];
-        $destination="../assests/images/$photo";
-        $firstname = $row["firstname"];
-        $lastname = $row["lastname"];
-        $email = $row["email"];
-        $password = $row["password"];
-        $address = $row["address"];
-        $mobilenumber = $row["mobilenumber"];
-        $gender = $row["gender"];
-        $program = $row["program"];
-
-     
-        echo '<form id="studentForm" action="" method="post"  enctype="multipart/form-data" style="width: 400px; margin: 50px auto; padding: 20px; background-color: rgba(173, 216, 230, 0.8); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <img src="'.$destination.'" width="100px" height="100px"/>
-        <input type="file" name="photo" id="photo" >
-        <input type="hidden" name="id" value="'.$id.'">
-        First Name: <input type="text" name="updatefirstname" value="'. $firstname.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        Last Name: <input type="text" name="updatelastname" value="'. $lastname.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        Email: <input type="email" name="updateemail" value="'. $email.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        Password: <input type="password" name="updatepassword" value="'. $password.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        Address: <input type="text" name="updateaddress" value="'. $address.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        Mobile Number: <input type="text" name="updatemobilenumber" value="'.$mobilenumber.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        Gender: 
-        <select name="updategender" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
-        <option value="Male"'.($gender === 'Male' ? ' selected' : ''). '>Male</option>
-        <option value="Female"'.($gender === 'Female' ? ' selected' : ''). '>Female</option>
-            
-            <option value="Other"'.($gender === 'Other' ? ' selected' : ''). '>Other</option>
-        </select><br>
-        Program: <input type="text" name="updateprogram" value="'.$program.'" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"><br>
-        <input type="submit" name="Update" value="Update" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    </form>
-    ';
-    } else {
-        echo "Student not found.";
-    }
-} else {
-    echo "ID is not passed from the table.";
+require_once "../include/connection.php";
+$id = $_GET['id'];
+$sql = "Select * from book where id = $id";
+$result = $conn->query($sql);
+if ($result->num_rows == 1) {
+  $book = $result->fetch_assoc();
+  $file_name=$book["photo"];
+  // print_r($book["photo"]);
+  // die();
 }
 
-
-if (isset($_POST["Update"])) {
-    
-    // print_r($_POST["photo"]);
-    print_r($_FILES["photo"]);
-    if (isset($_FILES["photo"])) {
-        $filename = $_FILES["photo"]["name"];
-        $tmpname = $_FILES["photo"]["tmp_name"];
-        $destination = "../assests/images/" . basename($filename); // Sanitize filename
-        if (move_uploaded_file($tmpname, $destination)) {
-
-            echo "File uploaded successfully";
-        } else {
-             $filename=$row["photo"];
-            echo "Error uploading file";
-            // Handle error appropriately, e.g., exit or continue execution
-        }
-    } else {
-        $filename=$row["photo"];
-        echo "No file uploaded";
-        // Handle error appropriately, e.g., exit or continue execution
-    }
-    $updateid = $_POST["id"];
-    $updatefirstname = $_POST["updatefirstname"];
-    $updatelastname = $_POST["updatelastname"];
-    $updateemail = $_POST["updateemail"];
-    $updatepassword = $_POST["updatepassword"];
-    $updateaddress = $_POST["updateaddress"];
-    $updatemobilenumber = $_POST["updatemobilenumber"];
-    $updategender = $_POST["updategender"];
-    $updateprogram = $_POST["updateprogram"];
-   
-    $updatesql = "UPDATE student SET 
-        firstname='$updatefirstname',
-        lastname='$updatelastname',
-        email='$updateemail',
-        password='$updatepassword',
-        address='$updateaddress',
-        mobilenumber='$updatemobilenumber',
-        gender='$updategender',
-        program='$updateprogram',
-        photo='$filename'
-        WHERE id = $updateid";
-
-    if ($connection->query($updatesql)==TRUE) {
-        //  print_r($connection);
-       
-        echo "Data updated successfully!";
-        header("location:../dashboard.php?login=true&id=8&goto=studentlist");
-        exit();
-    } else {
-        echo "Error updating data: " . $connection->error;
-    }
+if (isset($_POST['submit'])) {
+if (!empty($_FILES['photo']["name"])) {
+  echo "<pre>";
+  print_r($_FILES);
+  echo "</pre>";
+  $file_name = $_FILES['photo']['name'];
+  $file_tmp = $_FILES['photo']['tmp_name'];
+  $file_type = $_FILES['photo']['type'];
+  $file_size = $_FILES['photo']['size'];
+  move_uploaded_file($file_tmp, "../assets/bookcover/$file_name");
 }else{
-    echo "<p style='color:red;'> Please Update Your Data</p>";
-}
-$connection->close();
-   }else{
-    echo "please login first";
-   }
-}else{
-    echo "please login first";
+  echo "file is not upload";
+  $file_name=$book["photo"];
 }
 
+print_r($file_name);
+  $catagory = $_POST['catagory'];
+  $book_title = $_POST['book_title'];
+  $isbm = $_POST['isbm'];
+  $author = $_POST['author'];
+  $pages = $_POST['pages'];
+  $copies = $_POST['copies'];
+  $price = $_POST['price'];
+
+  $sql = "UPDATE BOOK SET photo='$file_name',category='$category', book_title='$book_title', isbm='$isbm', author='$author', pages='$pages', copies='$copies', price='$price' where id='$id'";
+  if ($conn->query($sql) == true) {
+    header('Location:../dashboard.php?login=true&select=addbooks');
+    exit();
+  } else {
+    echo 'query error ' . $conn->error;
+  }
+}
 ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>form</title>
+  
+</head>
+
+<body>
+  <div class="container">
+    <div class="title">
+      BOOK MODULE</div>
+    <form name="BOOK MODULE" action="" method="POST" enctype="multipart/form-data">
+      <tr>
+        <td><b>CATAGORY:</b></td>
+        <td>
+          <select name="catagory">
+            <option value="History" <?php if ($book['category'] == 'History') {
+                                      echo "selected";
+                                    } ?>>History</option>
+            <option value="Art" <?php if ($book['category'] == 'Art') {
+                                  echo "selected";
+                                } ?>>Art</option>
+            <option value="Mystery" <?php if ($book['category'] == 'Mystery') {
+                                      echo "selected";
+                                    } ?>>Mystery</option>
+            <option value="Technology" <?php if ($book['category'] == 'Technology') {
+                                          echo "selected";
+                                        } ?>>Technology</option>
+
+          </select>
+      </tr><br><br>
+      <tr>
+        <td><b>BOOK-TITLE:</b></td>
+        <td> <input type="text" name="book_title" value="<?php echo $book['book_title']; ?>" required> </td>
+
+      </tr><br><br>
+      <tr>
+        <td><b>ISBM:</b></td>
+        <td> <input type="text" name="isbm" value="<?php echo $book['isbm']; ?>" required> </td>
+
+      </tr> <br><br>
+      <tr>
+        <td><b>AUTHOR:</b></td>
+        <td> <input type="text" name="author" value="<?php echo $book['author']; ?>" required> </td>
+        </select>
+      </tr> <br><br>
+      <tr>
+        <td><b>PAGES:</b></td>
+        <td> <input type="text" name="pages" value="<?php echo $book['pages']; ?>" required> </td>
+      </tr> <br><br>
+      <tr>
+        <td><b>COPIES:</b></td>
+        <td> <input type="text" name="copies" value="<?php echo $book['copies']; ?>" required> </td>
+      </tr> <br><br>
+      <tr>
+        <td><b>PRICE:</b></td>
+        <td>
+          <input type="text" name="price" value="<?php echo $book['price']; ?>" required>
+
+        </td>
+      </tr> <br><br>
+
+      <tr>
+        <td><b>PHOTO:</b> </td>
+        <td> <input type="file" name="photo" /> </td>
+      </tr> <br><br>
+
+      <br>
+      <input type="submit" value="submit" name="submit"></br>
+      <br>
+  </div>
+  </form>
+</body>
+
+</html>

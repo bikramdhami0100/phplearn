@@ -1,189 +1,214 @@
 <?php
 session_start();
-if (!isset($_SESSION["id"] )) {
-   print($_SESSION["id"]);
-   header("location:index.php?login=false");
-}else{
-    
-    if (isset($_SESSION["id"])) {
-        include_once("include/registrationdbcon.php");
-        $id=$_SESSION["id"];
-        $sql="select *from student where id=$id";
-        $res=$connection->query($sql);
-        if ($res->num_rows>0) {
-            $result=$res->fetch_assoc();
-            
-        }
-        if (isset($result["id"])) {
-            // echo $result["id"];
-            $id=$result["id"];
-            $name=$result["firstname"];
-            $lname=$result["lastname"];
-            $email=$result["email"];
-            $address=$result["address"];
-            $mobilenumber=$result["mobilenumber"];
-            $gender=$result["gender"];
-            $photoname=$result["photo"];
-            $program=$result["program"];
-        }
-    }
+include_once("include/connection.php");
+$id=$_SESSION["adminid"];
+  
+if (empty($id)) {
+  header("location:index.php?login=false");
 }
-
+// if (isset($_GET["id"])) {
+//   // $id=$_SESSION["adminid"];
+//    $adminsql="select *from admintable where id='$id'";
+//    $data=$conn->query($adminsql);
+//   if ($data->num_rows>0) {
+//      $result=$data->fetch_assoc();
+//      print_r($result);
+    
+//   }
+// }
 ?>
+<!-- insert books -->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student data</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</head>
+<style>
+    *{
+        margin:0px;
+        padding:0px;
+    }
+   
+    .container{
+        display: flex;
+        margin:0px;
+        padding:0px;
+    }
+    aside{
+        color:white;
+        width: 20%;
+        background-color: gray;
+        min-height: 100vh;
+    }
+    aside .setdiv{
+       font-weight:bold;
+       cursor: pointer;
+       margin-bottom:4px;
+       padding: 6px;
+       /* border:2px solid red; */
+    }
+    main{
+        width: 80%;
+    }
+    .navbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:gray;
+      color:white;
+
+    }
+    .one{
+      display: flex;
+      align-items:center;
+      gap:20px;
+      height:40px;
+    }
+</style>
+<body>
+<div class="navbar">
+           <div class="one">
+          <div class="setdiv"><a href="dashboard.php?login=true&select=dashboard">Dashboard</a></div>
+          <div class="setdiv"><a href="dashboard.php?login=true&select=addbooks">All books</a></div>
+          <div class="setdiv"><a href="dashboard.php?login=true&select=insertbook">Add book</a></div>
+           </div>
+          <div class="setdiv"><a href="logout.php?login=true&select=logout">Log Out</a></div>
+</div>
+  <div class="container">
+    <aside>
+       <div>
+          <div class="setdiv"><a href="dashboard.php?login=true&select=dashboard">Dashboard</a></div>
+          <div class="setdiv"><a href="dashboard.php?login=true&select=addbooks">All books</a></div>
+          <div class="setdiv"><a href="dashboard.php?login=true&select=insertbook">Add book</a></div>
+          <div class="setdiv"><a href="logout.php?login=true&select=logout">Log Out</a></div>
+          <!-- <div  class="setdiv">update book</div> -->
+
+          <!-- <div  class="setdiv">delete book</div> -->
+       </div>
+   </aside>
+
+   <!-- <h1>hello</h1> -->
+
+  
+<?php
+     
+     if (isset($_GET["select"])) {
+      if($_GET["select"]=="dashboard"){  
+        $sqlforadmin = "select * from admintable where adminid='$id'";
+        $sfadmin = $conn->query($sqlforadmin);
+
+        if ($sfadmin->num_rows > 0) {
+            $sadmin = $sfadmin->fetch_assoc(); // corrected syntax here
+           $adminemail=$sadmin["email"];
+            $adminpassword=$sadmin["password"];
+            $adminimage=$sadmin["cover"];
+            
+            // echo "./assets/bookstoreadmin/{$adminimage}'";
+            echo "<div>";
+            echo "<div style='width:200px; margin-left:22px ;margin-top:35px ;'>";
+            echo "<div style='display: flex; align-items: center; justify-content: center; flex-direction: column;'>";
+            // echo "<div style='border: 2px solid #ccc; border-radius: 50%; overflow: hidden; width: 150px; height: 150px; margin-bottom: 20px;'>";
+            // echo "<img src='assets/bookstoreadmin/{$adminimage}' alt='Admin Image' style='width: 100%; height: 100%; object-fit: cover; border-radius: 50%;'>";
+            // echo "</div>";
+            echo "<div style='text-align: center;'>";
+            echo "<h3>$adminemail</h3>";
+            echo "<p>Password: $adminpassword</p>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
         }
         
-        body {
-            font-family: Arial, sans-serif;
-        }
+?>
 
-        /* Navbar styles */
-        .navbar {
-            margin-top:-20px;
-            /* position:absolute; */
-            
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-width:100%;
-        }
 
-        .navbar ul {
-            list-style-type: none;
-            display: flex;
-        }
-
-        .navbar ul li {
-            margin-right: 20px;
-        }
-
-        .navbar ul li a {
-            text-decoration: none;
-            color: #fff;
-        }
-
-        /* Sidebar styles */
-        aside{
-            font-size:20px;
-            border:2px solid black;
-            background-color: #fff;
-            font-weight:bold;
-            width: 20%;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        aside ul {
-            list-style-type: none;
-
-        }
-
-        aside ul li {
-            cursor: pointer;
-            padding:4px;
-            margin-bottom: 10px;
-        }
-
-        aside ul li a {
-            text-decoration: none;
-            color: #333;
-            display: block;
-        }
-
-        main{
-            width: 80%;
-            height:100%;
-            background-color:white;
-            /* padding: 20px; */
-        }
-       .container{
-         display: flex;
-         
-       }
-       .logo{
-        border:2px solid gray;
-        border-radius:50%;
-        margin-bottom:10px;
-
-       }
-        /* Responsive styles */
-        @media screen and (max-width: 768px) {
-            
-        }
-    </style>
-</head>
-<body>
-    <div class="navbar">
-        <h1>Student Data</h1>
-        <ul>
-        <li><a href="http://localhost/phplearn/collegework/admin/dashboard.php?login=true&id=8&goto=dashboard">Dashboard</a></li>
-
-            <li><a href="http://localhost/phplearn/collegework/admin/dashboard.php?login=true&id=8&goto=studentlist">Student List</a></li>
-            <li><a href="http://localhost/phplearn/collegework/admin/main/RegistrationForm.html">Add Student</a></li>
-            <li><a href="./logout.php">Logout</a></li>
-        </ul>
+     <div style=''>
+    <div style='width: 40%;'>
+        <form method="post" action=""  style='display: flex; margin-bottom: 10px;'>
+            <input type='text' name='query' id='searchQuery' placeholder='Enter your search query' style=' padding: 8px;' onkeyup='performSearch()'>
+            <button value="search" name="search" type="submit" style='padding: 8px 15px; background-color: #007bff; color: #fff; border: none; cursor: pointer;' onclick='performSearch()'>Search</button>
+        </from>
     </div>
+</div>
+<?php 
+            // echo "dashbaord";
+            //  echo "<br/>";
+              // print_r($_GET);
+            //  echo $_SESSION["adminid"];
 
-    <div class="container">
-    <aside>
-        <h2><img class="logo" src="assests/images/newbg.jpg" alt="image" width="100px" height="100px" /></h2>
-        <ul>
-            <li><a href="http://localhost/phplearn/collegework/admin/dashboard.php?login=true&id=8&goto=dashboard">Dashboard</a></li>
-            <li><a href="http://localhost/phplearn/collegework/admin/dashboard.php?login=true&id=8&goto=studentlist">Student List</a></li>
-            <li><a href="http://localhost/phplearn/collegework/admin/main/RegistrationForm.html">Add Student</a></li>
-            <li><a href="./logout.php">Logout</a></li>
-        </ul>
-    </aside>
-
-    <main class="section">
-         <center>
-         <h1> Welcome to Dashboard</h1>
-         </center>
-         <!-- dashboard part -->
-         <?php
-           if (isset($_GET["goto"])) {
-             if ($_GET["goto"]=="dashboard") {
-                echo "<div style='background-color: #f4f4f4; padding: 20px; border-radius:4px solid gray; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border:1px solid gray; margin:4px;'>
-                <h2 style='margin-bottom: 10px;'>Information</h2>
-                <div> <img src='assests/images/$photoname' width='100px' height='100px' > </div>
-                
-                <p><strong>ID:</strong> $id</p>
-                <p><strong>Name:</strong> $name $lname</p>
-                <p><strong>Email:</strong> $email</p>
-                <p><strong>Address:</strong> $address</p>
-                <p><strong>Mobile Number:</strong> $mobilenumber</p>
-                <p><strong>Gender:</strong> $gender</p>
-                <p><strong>Program:</strong> $program</p>
-            </div>";
-             }
-
-            
-             
-           }
-         ?>
-          <!--  set up student list -->
-          <?php
-           if (isset($_GET["goto"])) {
-             if ($_GET["goto"]=="studentlist") {
-              include_once("main/getvalue.php");
-             } 
-           }
-         ?>
-
-    </main>
-    </div>
+        $listsql="select count(id) as totalbook from book" ;
+        $res=$conn->query($listsql);
+        if ($res->num_rows>0) {
+          $listofbook=$res->fetch_assoc();
+          // print_r($listofbook);
+          $totalbk=$listofbook["totalbook"];
+          echo "total book $totalbk";
+          echo "<br/>";
+          echo "<br/>";
+        }
+      }
+    
+    }
+// data from search
+    if (isset($_POST["search"])) {
+      $searchcontent = $_POST["query"];
+      $searchsql = "SELECT * FROM book WHERE book_title LIKE '$searchcontent%'";
+      $result = $conn->query($searchsql);
+      if ($result->num_rows > 0) {
+        echo "<div>";
+          echo "<table style='border-collapse: collapse; width: 100%;'>";
+          echo "<thead>";
+          echo "<tr>";
+          echo "<th style='border: 1px solid #ccc; padding: 8px;'>Category</th>";
+          echo "<th style='border: 1px solid #ccc; padding: 8px;'>Book Name</th>";
+          echo "<th style='border: 1px solid #ccc; padding: 8px;'>Price</th>";
+          echo "<th style='border: 1px solid #ccc; padding: 8px;'>Image</th>";
+          echo "</tr>";
+          echo "</thead>";
+          echo "<tbody>";
+          while ($data = $result->fetch_assoc()) {
+              echo "<tr>";
+              echo "<td style='border: 1px solid #ccc; padding: 8px;'>" . $data["category"] . "</td>";
+              echo "<td style='border: 1px solid #ccc; padding: 8px;'>" . $data["book_title"] . "</td>";
+              echo "<td style='border: 1px solid #ccc; padding: 8px;'>$" . $data["price"] . "</td>";
+              echo "<td style='border: 1px solid #ccc; padding: 8px;'><img src='assets/bookcover/" . $data["photo"] . "' alt='Book Image' style='max-width: 100px; max-height: 100px;'></td>";
+              echo "</tr>";
+          }
+          echo "</tbody>";
+          echo "</table>";
+          echo "</div>";
+      } else {
+          echo "<p>No data found for '$searchcontent'</p>";
+      }
+  }
+  
+?>
+      <?php
+     
+     if (isset($_GET["select"])) {
+       if($_GET["select"]=="addbooks"){
+              include_once("components/book.php");
+       }
+     }
+    
+     ?>
+        <?php
+     
+     if (isset($_GET["select"])) {
+       if($_GET["select"]=="insertbook"){
+              include_once("components/insert.php");
+       }
+     }
+    
+     ?>
+  </div>  
 </body>
 </html>
