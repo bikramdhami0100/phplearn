@@ -20,7 +20,7 @@ if ($result === false) {
         foreach ($row2 as $key => $value) {      
             echo "<th style='padding: 8px; border: 1px solid #000;'>$key</th>";
         }
-        echo "<th style='padding: 8px; text-align: center; border: 1px solid #000;'>Photo Name</th>";
+        // echo "<th style='padding: 8px; text-align: center; border: 1px solid #000;'>Photo Name</th>";
         echo "<th style='padding: 8px; text-align: center; border: 1px solid #000;'>Edit</th>";
         echo "<th style='padding: 8px; text-align: center; border: 1px solid #000;'>Delete</th>";
         echo "</tr>";
